@@ -1,0 +1,30 @@
+name: Gerar Dataset C Sintético
+
+on:
+  workflow_dispatch:  # Permite execução manual na aba "Actions"
+  push:
+    paths:
+      - gerar_dataset.py
+      - .github/workflows/gerar_dataset.yml
+
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clonar repositório
+      uses: actions/checkout@v3
+
+    - name: Configurar Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Executar script gerar_dataset.py
+      run: python gerar_dataset.py
+
+    - name: Salvar arquivos gerados (dataset)
+      uses: actions/upload-artifact@v4
+      with:
+        name: synthetic_c_dataset
+        path: synthetic_c_dataset/
