@@ -1,13 +1,23 @@
-#include <stdlib.h>
 #include <stdio.h>
-
-void exemplo() {
-    char *buffer = (char *)malloc(100);
-    if (buffer == NULL) return;
-    printf("Usando o buffer...\n");
-}
+#include <stdlib.h>
+#include <string.h>
 
 int main() {
-    exemplo();
+    char* nomes[2];
+    char buffer[100];
+
+    fgets(buffer, sizeof(buffer), stdin);
+    buffer[strcspn(buffer, "\n")] = '\0';
+
+    nomes[0] = malloc(strlen(buffer) + 1);
+    strcpy(nomes[0], buffer);
+
+    
+    nomes[1] = nomes[0];
+
+    free(nomes[0]);  
+    
+
     return 0;
 }
+
