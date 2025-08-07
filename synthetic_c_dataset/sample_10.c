@@ -1,13 +1,35 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-void exemplo() {
-    char *buffer = (char *)malloc(100);
-    if (buffer == NULL) return;
-    printf("Usando o buffer...\n");
-}
+typedef struct No {
+    char* nome;
+    struct No* prox;
+} No;
 
 int main() {
-    exemplo();
+    No* inicio = NULL;
+
+    for (int i = 0; i < 3; i++) {
+        No* novo = malloc(sizeof(No));
+        char buffer[100];
+        fgets(buffer, sizeof(buffer), stdin);
+        buffer[strcspn(buffer, "\n")] = '\0';
+
+        novo->nome = malloc(strlen(buffer) + 1);
+        strcpy(novo->nome, buffer);
+        novo->prox = inicio;
+        inicio = novo;
+    }
+
+
+    for (int i = 0; i < 2 && inicio != NULL; i++) {
+        No* temp = inicio;
+        inicio = inicio->prox;
+        free(temp->nome);
+        free(temp);
+    }
+
     return 0;
 }
+
