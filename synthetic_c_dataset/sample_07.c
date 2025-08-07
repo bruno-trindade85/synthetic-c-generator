@@ -1,13 +1,25 @@
-#include <stdlib.h>
 #include <stdio.h>
-
-void exemplo() {
-    char *buffer = (char *)malloc(100);
-    if (buffer == NULL) return;
-    printf("Usando o buffer...\n");
-}
+#include <stdlib.h>
 
 int main() {
-    exemplo();
+    int x;
+    scanf("%d", &x);
+
+    char* texto = NULL;
+
+    if (x % 2 == 0) {
+        texto = malloc(100);
+    }
+
+    if (x > 10) {
+        printf("Valor alto\n");
+        return 0; 
+    }
+
+    if (texto) {
+        free(texto);
+    }
+
     return 0;
 }
+
