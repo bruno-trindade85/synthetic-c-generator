@@ -1,5 +1,5 @@
 arquivo,label
-sample_01_no_leak.c,no_leak
+sample_01.c,no_leak
 sample_02.c,leak
 sample_03.c,leak
 sample_04.c,leak
@@ -12,10 +12,10 @@ sample_10.c,leak
 sample_11.c,leak
 sample_12.c,leak
 sample_13.c,leak
-sample_14_no_leak.c,no_leak
-sample_15_no_leak.c,no_leak
-sample_16_leak.c,leak
-sample_17_no_leak.c,no_leak
-sample_18_no_leak.c,no_leak
-sample_19_leak.c,leak
-sample_20_no_leak.c,no_leak
+sample_14.c,no_leak
+sample_15.c,no_leak
+sample_16.c,leak
+sample_17.c,no_leak
+sample_18.c,no_leak
+sample_19.c,leak
+sample_20.c,no_leak
