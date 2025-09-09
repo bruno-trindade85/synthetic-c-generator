@@ -1,0 +1,14 @@
+name: "CodeQL config (C/C++)"
+paths:
+  - synthetic_c_dataset           # garante que o dataset entre na análise
+paths-ignore:
+  - build/**
+
+queries:
+  # Suites oficiais mais amplas
+  - uses: security-extended
+  - uses: security-and-quality
+
+  # Packs adicionais (inclui regras experimentais e de qualidade)
+  - uses: codeql/cpp-queries@latest
+  - uses: codeql/cpp-queries@latest#experimental
