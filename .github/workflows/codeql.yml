@@ -33,13 +33,16 @@ jobs:
         with:
           languages: ${{ matrix.language }}
 
-      # build manual para os .c
-      - name: Build C code
+            # build manual para os .c
+      - name: Build C code (compile units individually)
+        shell: bash
         run: |
           sudo apt-get update && sudo apt-get install -y build-essential
-          gcc -c synthetic_c_dataset/*.c -o build_output.o
+          mkdir -p build
+          for f in synthetic_c_dataset/*.c; do
+            echo "Compiling $f"
+            gcc -Wall -Wextra -c "$f" -o "build/$(basename "${f%.c}").o"
+          done
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
-        with:
-          category: "/language:${{ matrix.language }}"
