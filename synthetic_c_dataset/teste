@@ -1,18 +1,13 @@
-#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
+void leaky() {
+    char *p = (char*) malloc(10);
+    strcpy(p, "123456789"); // ok, mas sem free → alerta de leak
+}
+
 int main() {
-    char senha[8];
-
-    printf("Digite a senha: ");
-    // gets() é inseguro porque não checa limite de buffer → alerta clássico
-    gets(senha);
-
-    if (strcmp(senha, "123456") == 0) {
-        printf("Acesso permitido!\n");
-    } else {
-        printf("Acesso negado!\n");
-    }
-
+    leaky();
     return 0;
 }
+
