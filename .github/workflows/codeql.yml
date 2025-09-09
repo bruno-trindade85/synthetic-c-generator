@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
   schedule:
     - cron: '0 3 * * 1'
-  workflow_dispatch:   # habilita rodar manualmente pelo botão
+  workflow_dispatch:
 
 jobs:
   analyze:
@@ -22,18 +22,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'cpp' ]   # "cpp" cobre C e C++
+        language: [ 'cpp' ]   # cobre C e C++
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Initialize CodeQL
+      - name: Initialize CodeQL (with extra query packs)
         uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
+          config-file: ./.github/codeql/codeql-config.yml
 
-            # build manual para os .c
       - name: Build C code (compile units individually)
         shell: bash
         run: |
@@ -46,3 +46,5 @@ jobs:
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
