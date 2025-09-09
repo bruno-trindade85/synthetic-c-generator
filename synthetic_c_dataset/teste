@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char senha[8];
+
+    printf("Digite a senha: ");
+    // gets() é inseguro porque não checa limite de buffer → alerta clássico
+    gets(senha);
+
+    if (strcmp(senha, "123456") == 0) {
+        printf("Acesso permitido!\n");
+    } else {
+        printf("Acesso negado!\n");
+    }
+
+    return 0;
+}
