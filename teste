@@ -1,0 +1,20 @@
+const express = require("express");
+const app = express();
+const mysql = require("mysql2/promise");
+
+app.get("/search", async (req, res) => {
+  const term = req.query.q; // ❌ input direto
+  const conn = await mysql.createConnection({host:"localhost", user:"root", database:"test"});
+  // ❌ SQL injection: concatenação direta
+  const [rows] = await conn.execute("SELECT * FROM products WHERE name LIKE '%" + term + "%'");
+  res.json(rows);
+});
+
+app.get("/calc", (req, res) => {
+  const expr = req.query.expr; // ex: "2+2"
+  // ❌ RCE: uso de eval em input do usuário
+  const result = eval(expr);
+  res.send(String(result));
+});
+
+app.listen(3000);
