@@ -1,20 +1,32 @@
-const express = require("express");
-const app = express();
-const mysql = require("mysql2/promise");
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-app.get("/search", async (req, res) => {
-  const term = req.query.q; // ❌ input direto
-  const conn = await mysql.createConnection({host:"localhost", user:"root", database:"test"});
-  // ❌ SQL injection: concatenação direta
-  const [rows] = await conn.execute("SELECT * FROM products WHERE name LIKE '%" + term + "%'");
-  res.json(rows);
-});
+// ❌ Exemplo 1: vazamento em early return
+char* read_prefix(const char* path, size_t n) {
+    FILE* f = fopen(path, "r");           // ❌ Pode não ser fechado em alguns caminhos
+    if (!f) return NULL;
 
-app.get("/calc", (req, res) => {
-  const expr = req.query.expr; // ex: "2+2"
-  // ❌ RCE: uso de eval em input do usuário
-  const result = eval(expr);
-  res.send(String(result));
-});
+    char* buf = (char*)malloc(n + 1);     // ❌ alocado
+    if (!buf) { fclose(f); return NULL; }
 
-app.listen(3000);
+    size_t r = fread(buf, 1, n, f);
+    if (r == 0) {
+        // ❌ early return sem free — vazamento
+        fclose(f);
+        return NULL;
+    }
+    buf[r] = '\0';
+
+    // ❌ Esquecemos fclose aqui — vazamento de recurso
+    return buf; // ❌ Chamador não libera -> vazamento típico em teste
+}
+
+int main() {
+    char* data = read_prefix("input.txt", 100);
+    if (data) {
+        printf("%s\n", data);
+        // ❌ Esquecemos free(data);
+    }
+    return 0;
+}
