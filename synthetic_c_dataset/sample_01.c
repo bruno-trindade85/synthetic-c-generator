@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void exemplo() {
+void exemplo() { 
     char *buffer = (char *)malloc(100);
     if (buffer == NULL) return;
     printf("Usando o buffer...\n");
